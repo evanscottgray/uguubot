@@ -175,6 +175,7 @@ def _utils_string_at_index(strings, index):
 
 from util import hook
 import re
+import json
 factory = ChatterBotFactory()
 
 # bot1 = factory.create(ChatterBotType.CLEVERBOT)
@@ -182,13 +183,17 @@ factory = ChatterBotFactory()
 #b0dafd24ee35a477
 #f3b17b62de377847
 
+config_keys = json.load(open('config'))
+bot_name = config_keys.get("bot_name","uguubot")
+short_bot_name = re.sub('bot', '', bot_name).strip()
+
 bot = factory.create(ChatterBotType.PANDORABOTS, 'df9c8acfde345d97')
 botsession = bot.create_session()
 
-chatbot_re = (r'((?:uguu|uguubot)\s(.+)|(.+)\s(?:uguu|uguubot))', re.I)
+chatbot_re = (r'((?:%s|%s)\s(.+)|(.+)\s(?:%s|%s))'%(short_bot_name,bot_name,short_bot_name,bot_name), re.I)
 @hook.regex(*chatbot_re)
 @hook.command
-def chatbot(inp, reply=None):
-    thought = inp.group(1).replace('uguubot','').replace('uguu','').replace('ALICE','Uguu').strip()
+def chatbot(inp, reply=None, bot=None):
+    thought = inp.group(1).replace(bot_name,'').replace(short_bot_name,'').replace('ALICE','Dawng').strip()
     response = botsession.think(thought)
-    reply(response.replace('Bartender Katie','Uguu').replace('ALICE','UGUU~~~').replace('Daisy Picnic','infinity').replace('ELVIS','infinity').replace('<br> ','').replace('German Alice','urmom').replace('Dancing Alice','infinity').replace('Www.AliceBot.Org','uguubot.com').replace('alicebot','uguubot')  )
+    reply(response.replace('Bartender Katie','Dawng').replace('ALICE','DAWNG~~~').replace('Daisy Picnic','infinity').replace('ELVIS','infinity').replace('<br> ','').replace('German Alice','urmom').replace('Dancing Alice','infinity').replace('Www.AliceBot.Org','uguubot.com').replace('alicebot','uguubot')  )
