@@ -14,25 +14,25 @@ color_codes = {
 with open("plugins/data/8ball_responses.txt") as f:
     responses = [line.strip() for line in f.readlines() if not line.startswith("//")]
 
-
-with open("plugins/data/larts.txt") as f:
-    larts = [line.strip() for line in f.readlines() if not line.startswith("//")]
+# 
+# with open("plugins/data/larts.txt") as f:
+#     larts = [line.strip() for line in f.readlines() if not line.startswith("//")]
 
 
 with open("plugins/data/insults.txt") as f:
     insults = [line.strip() for line in f.readlines() if not line.startswith("//")]
 
-
-with open("plugins/data/flirts.txt") as f:
-    flirts = [line.strip() for line in f.readlines() if not line.startswith("//")]
-
-
-with open("plugins/data/yiffs.txt") as f:
-    yiffs = [line.strip() for line in f.readlines() if not line.startswith("//")]
-
-
-with open("plugins/data/lewd.txt") as f:
-    lewds = [line.strip() for line in f.readlines() if not line.startswith("//")]
+#
+# with open("plugins/data/flirts.txt") as f:
+#     flirts = [line.strip() for line in f.readlines() if not line.startswith("//")]
+#
+#
+# with open("plugins/data/yiffs.txt") as f:
+#     yiffs = [line.strip() for line in f.readlines() if not line.startswith("//")]
+#
+#
+# with open("plugins/data/lewd.txt") as f:
+#     lewds = [line.strip() for line in f.readlines() if not line.startswith("//")]
 
 with open("plugins/data/slogans.txt") as f:
     slogans = [line.strip() for line in f.readlines() if not line.startswith("//")]
@@ -346,6 +346,3 @@ def nsfw(inp, say=None,notice=None):
     """nsfw -- Have a nice fap"""
     say(process_text(inp,"nsfw",notice))
     return
-
-
-
