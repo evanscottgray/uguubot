@@ -114,7 +114,7 @@ def get_episode_info(episode):
 @hook.command
 @hook.command('show')
 @hook.command('series')
-def tv(inp):
+def tv_show(inp):
     ".tv <series> -- get info for the <series>"
     return get_series_info(inp)
 
