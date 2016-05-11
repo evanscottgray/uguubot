@@ -3,7 +3,7 @@ from util import hook
 
 
 @hook.command('ow')
-def open_windows():
+def open_windows(inp):
     open_windows =  os.popen('DISPLAY=:0 wmctrl -l').readlines()
     if len(open_windows) == 0:
         return 'No open windows'
@@ -52,7 +52,7 @@ def maximize_window(inp):
     return 'Maximizing current window'
 
 
-@hook.command('kp', 'k')
+@hook.command('kp')
 def key_press(inp):
     os.popen('DISPLAY=:0 xdotool key %s' % inp)
     return 'Pressing key: %s' % inp

@@ -159,7 +159,7 @@ def gunignore(inp, notice=None, bot=None, chan=None, db=None):
 
 @hook.command("quit", autohelp=False, permissions=["botcontrol"], adminonly=True)
 @hook.command(autohelp=False, permissions=["botcontrol"],adminonly=True)
-def stop(inp, nick=None, conn=None):
+def stop_bot(inp, nick=None, conn=None):
     """stop [reason] -- Kills the bot with [reason] as its quit message."""
     if inp:
         conn.cmd("QUIT", ["Killed by {} ({})".format(nick, inp)])
