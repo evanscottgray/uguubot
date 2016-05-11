@@ -1,15 +1,46 @@
 import os
+import re
 from util import hook
+
+MRSKELTAL = ['▒▒▒░░░░░░░░░░▄▐░░░░',
+            '▒░░░░░░▄▄▄░░▄██▄░░░',
+            '░░░░░░▐▀█▀▌░░░░▀█▄░',
+            '░░░░░░▐█▄█▌░░░░░░▀█▄',
+            '░░░░░░░▀▄▀░░░▄▄▄▄▄▀▀',
+            '░░░░░▄▄▄██▀▀▀▀░░░░░',
+            '░░░░█▀▄▄▄█░▀▀░░░░░░',
+            '░░░░▌░▄▄▄▐▌▀▀▀░░░░░',
+            '░▄░▐░░░▄▄░█░▀▀░░░░░',
+            '░▀█▌░░░▄░▀█▀░▀░░░░░',
+            '░░░░░░░░▄▄▐▌▄▄░░░░░',
+            '░░░░░░░░▀███▀█░▄░░░',
+            '░░░░░░░▐▌▀▄▀▄▀▐▄░░░',
+            '░░░░░░░▐▀░░░░░░▐▌░░',
+            '░░░░░░░█░░░░░░░░█░░',
+            '░░░░░░▐▌░░░░░░░░░█░']
+
+SPOOKY_RE = (r"\bgentle spooks\b", re.I)
+
+
+def send(conn, chan, line):
+    out = "PRIVMSG %s :\x01ACTION %s\x01" % (chan, line)
+    conn.send(out)
+
+
+def spooky_spam(conn, chan):
+    for line in MRSKELTAL:
+        out = "PRIVMSG %s : %s " % (chan, line.decode('utf-8'))
+        conn.send(out)
 
 
 @hook.command('ow')
-def open_windows(inp):
+def open_windows(inp, conn=None, chan=None):
     open_windows =  os.popen('DISPLAY=:0 wmctrl -l').readlines()
     if len(open_windows) == 0:
         return 'No open windows'
     for line in open_windows:
         title = line.split('ATXBawt')[1]
-        return title
+        send(conn, chan, title)
 
 
 @hook.command('cw')
@@ -56,3 +87,10 @@ def maximize_window(inp):
 def key_press(inp):
     os.popen('DISPLAY=:0 xdotool key %s' % inp)
     return 'Pressing key: %s' % inp
+
+
+@hook.regex(*SPOOKY_RE)
+def gentle_doot(match, conn=None, chan=None):
+    spooks = 'https://youtu.be/dMXBwKOfULY'
+    os.popen('DISPLAY=:0 chromium-browser -new-window %s &' % spooks)
+    spooky_spam(conn, chan)

@@ -6,7 +6,6 @@ import re
 from urllib import FancyURLopener
 import urllib2
 
-import gelbooru
 
 class urlopener(FancyURLopener):
     version = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0'
@@ -21,7 +20,7 @@ def process_url(match,bot=None,input=None,chan=None,db=None, reply=None):
     url = match.group(1).replace('https:','http:')
 
     if '127.0.0.1' in url or 'localhost' in url.lower(): return
-    
+
     trimlength = database.get(db,'channels','trimlength','chan',chan)
     if not trimlength: trimlength = 9999
     try: trimlength = int(trimlength)
@@ -118,7 +117,7 @@ def ebay_url(match,bot):
 
     try: bids = item.xpath("//span[@id='qty-test']/text()")[0].strip()
     except: bids = "Buy It Now"
-    
+
     feedback = item.xpath("//span[@class='w2b-head']/text()")
     if not feedback: feedback = item.xpath("//div[@id='si-fb']/text()")
     if feedback: feedback = feedback[0].strip()
@@ -146,7 +145,7 @@ def wikipedia_url(match):
 # @hook.regex(*hentai_re)
 def hentai_url(match,bot):
     userpass = bot.config.get("api_keys", {}).get("exhentai")
-    if "user:pass" in userpass: 
+    if "user:pass" in userpass:
         return
     else:
         username = userpass.split(':')[0]
@@ -155,7 +154,7 @@ def hentai_url(match,bot):
 
     url = match
     loginurl = 'http://forums.e-hentai.org/index.php?act=Login&CODE=01'
-    logindata = 'referer=http://forums.e-hentai.org/index.php&UserName={}&PassWord={}&CookieDate=1'.format(username,password) 
+    logindata = 'referer=http://forums.e-hentai.org/index.php&UserName={}&PassWord={}&CookieDate=1'.format(username,password)
 
     req = urllib2.Request(loginurl)
     resp=urllib2.urlopen(req,logindata)#POST登陆
@@ -201,7 +200,7 @@ headers = {
 
 def unmatched_url(match,chan,db):
     disabled_commands = database.get(db,'channels','disabled','chan',chan)
-    
+
     try:
 	r = requests.get(match, headers=headers,allow_redirects=True, stream=True)
     except Exception as e:
@@ -213,7 +212,7 @@ def unmatched_url(match,chan,db):
         content_type = r.headers['Content-Type']
         try: encoding = r.headers['content-encoding']
         except: encoding = ''
-        
+
         if content_type.find("html") != -1: # and content_type is not 'gzip':
 	    data = ''
 	    for chunk in r.iter_content(chunk_size=1024):
@@ -236,7 +235,7 @@ def unmatched_url(match,chan,db):
                     length = int(r.headers['Content-Length'])
                     if length < 0: length = 'Unknown size'
                     else: length = formatting.filesize(length)
-                else: 
+                else:
                     length = "Unknown size"
             except:
                 length = "Unknown size"
