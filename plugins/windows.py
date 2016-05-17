@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from util import hook
 
 MRSKELTAL = ['▒▒▒░░░░░░░░░░▄▐░░░░',
@@ -31,6 +32,7 @@ def spooky_spam(conn, chan):
     for line in MRSKELTAL:
         out = "PRIVMSG %s : %s " % (chan, line.decode('utf-8'))
         conn.send(out)
+        time.sleep(.3)
 
 
 @hook.command('ow')
