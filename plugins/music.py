@@ -2,13 +2,15 @@ import mpd
 from util import hook
 
 CLIENT = mpd.MPDClient(use_unicode=True)
+MPD_ENDPOINT = '127.0.0.1'
 
 
 def check_for_pulse():
     try:
         CLIENT.ping()
     except Exception as e:
-        CLIENT.connect('192.168.1.14', 6600)
+        print e
+        CLIENT.connect('127.0.0.1', 6600)
     return
 
 
@@ -16,10 +18,10 @@ def check_for_pulse():
 def now_playing(inp):
     check_for_pulse()
     current_song = CLIENT.currentsong()
-    cs_info = '%s by %s on %s %s' %(current_song.get('title'),
-                                    current_song.get('artist'),
-                                    current_song.get('album'),
-                                    current_song.get('date'))
+    cs_info = '%s by %s on %s %s' % (current_song.get('title'),
+                                     current_song.get('artist'),
+                                     current_song.get('album'),
+                                     current_song.get('date'))
     return cs_info
 
 
@@ -70,6 +72,6 @@ def whats_next(inp):
     for song in next_lst:
         title = song.get('title')
         artist = song.get('artist')
-        up_next = "%s%s - %s, " %(up_next, title, artist)
+        up_next = "%s%s - %s, " % (up_next, title, artist)
     response = up_next[:-2] + " "
     return response
